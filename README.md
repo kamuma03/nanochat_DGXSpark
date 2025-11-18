@@ -97,6 +97,22 @@ And a bit more about computing environments that will run nanochat:
 
 nanochat can be run on CPU or on MPS (if you're on Macbook), and will automatically try to detect what device is best to run on. You're not going to get too far without GPUs, but at least you'll be able to run the code paths and maybe train a tiny LLM with some patience. For an example of how to make all the run commands much smaller (feel free to tune!), you can refer to [dev/runcpu.sh](dev/runcpu.sh) file. You'll see that I'm essentially restricting all scripts to train smaller models, to run for shorter number of iterations, etc. This functionality is new, slightly gnarly (touched a lot of code), and was merged in this [CPU|MPS PR](https://github.com/karpathy/nanochat/pull/88) on Oct 21, 2025.
 
+# Running on DGX Spark
+
+nanochat can be run on DGX Spark, there were small tune required to use the new pytorch-cu130 and reduction to the number of the node from 8 to 1 and reduced the batch size to 8
+All the changes are limited to the files speedrun_dgx.sh and pyproject.toml 
+
+```bash
+bash speedrun_dgx.sh
+```
+
+Alternatively, it can be launched it like this inside a new screen session `speedrun_dgx` (and also log output to `speedrun_dgx.log`):
+
+```bash
+screen -L -Logfile speedrun_dgx.log -S speedrun_dgx bash speedrun_dgx.sh
+```
+It takes about 10 days to complete the training
+
 ## Customization
 
 To customize your nanochat, see [Guide: infusing identity to your nanochat](https://github.com/karpathy/nanochat/discussions/139) in Discussions, which describes how you can tune your nanochat's personality through synthetic data generation and mixing that data into midtraining and SFT stages.
@@ -174,6 +190,7 @@ python -m pytest tests/test_rustbpe.py -v -s
 │   ├── tok_eval.py                 # Tokenizer: evaluate compression rate
 │   └── tok_train.py                # Tokenizer: train it
 ├── speedrun.sh                     # Train the ~$100 nanochat d20
+├── speedrun_dgx.sh                 # Train the nanochat d20 on DGX Spark
 ├── tasks
 │   ├── arc.py                      # Multiple choice science questions
 │   ├── common.py                   # TaskMixture | TaskSequence
