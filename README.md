@@ -2,7 +2,6 @@
 
 ![nanochat logo](dev/nanochat.png)
 
-> The best ChatGPT that $100 can buy.
 
 This repo is forked from the https://github.com/karpathy/nanochat
 The update mainly is to be able to train on the DGX Spark 
@@ -10,7 +9,7 @@ The update mainly is to be able to train on the DGX Spark
 
 ## Running on DGX Spark
 
-nanochat can be run on DGX Spark, there were small tune required to use the new pytorch-cu130 and reduction to the number of the node from 8 to 1 and reduced the batch size to 8
+nanochat can be run on DGX Spark, there were small tune required to use the new pytorch-cu130 and reduction to the number of the node from 8 to 1 and reduced the batch size to 32 
 All the changes are limited to the files speedrun_dgx.sh and pyproject.toml 
 
 ```bash
